@@ -291,7 +291,21 @@ module.exports = {
 
                 }
             },
+
         ],
+        // 通过测试
+        // proxy: {
+        //     "/apis": {
+        //         target: "http://localhost:9000",
+        //         pathRewrite: { "^/api": "" },
+        //         // http://192.168.101.8:9000/api/index.html 定位到 http://192.168.101.8:9000/index.html
+        //         bypass: function (req, res, proxyOptions) {
+        //             console.log("Skipping proxy for browser request.");
+        //             return "/index.html";
+
+        //         }
+        //     }
+        // },
 
     }
 }
