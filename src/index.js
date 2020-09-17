@@ -6,6 +6,7 @@ import d3 from "../d3"
 import foo from './bar/index.js?externals';
 import browser from "./browser";
 import jquery from "jquery";
+// const { createProxyMiddleware } = require('http-proxy-middleware');
 
 console.log(foo);
 console.log(123);

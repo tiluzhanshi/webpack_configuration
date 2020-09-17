@@ -180,12 +180,12 @@ module.exports = {
         // 此选项根据入口起点的最大体积，控制 webpack 何时生成性能提示。
         // 默认值是：250000 (bytes)。
         // 控制入口文件的大小，在浏览器中加载优化初始加载文件过大；
-        maxEntrypointSize: 1000000,
+        maxEntrypointSize: 10000000000,
         // 资源(asset)是从 webpack 生成的任何文件。此选项根据单个资源体积，
         // 控制 webpack 何时生成性能提示。
         // 默认值是：250000 (bytes)。
         // 单个资源文件最大体积
-        maxAssetSize: 1000000,
+        maxAssetSize: 100000000000,
         // 此属性允许 webpack 控制用于计算性能提示的文件。默认函数如下
         assetFilter: function (assetFilename) {
             // 不是.map后缀的文件都会进行性能检测
@@ -287,6 +287,9 @@ module.exports = {
                 target: "http://localhost:9000",
                 bypass: function (req, res, proxyOptions) {
                     console.log("Skipping proxy for browser request.");
+                    console.log(proxyOptions);
+                    // res.headers["xxxxx-aaa"] = "123;";
+                    // console.log(req);
                     return "/index.html";
 
                 }
@@ -302,7 +305,6 @@ module.exports = {
         //         bypass: function (req, res, proxyOptions) {
         //             console.log("Skipping proxy for browser request.");
         //             return "/index.html";
-
         //         }
         //     }
         // },
