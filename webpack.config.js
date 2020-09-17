@@ -203,8 +203,8 @@ module.exports = {
             filename: "index.html",
             template: "./index.html"
         }),
-       // new webpack.NamedModulesPlugin(),
-       // new webpack.HotModuleReplacementPlugin(),
+        // new webpack.NamedModulesPlugin(),
+        // new webpack.HotModuleReplacementPlugin(),
     ],
     // 这个在控制台输出的信息类型
     // stats: "normal",
@@ -213,7 +213,9 @@ module.exports = {
     recordsOutputPath: path.join(__dirname, 'newRecords.json'),
     devServer: {
         // 指定使用一个 host。默认是 localhost。如果你希望服务器外部可访问，指定如下：
-        // host: "0.0.0.0",
+        host: "192.168.101.8",
+        // 此选项使浏览器可以使用您的本地IP打开。和上面的host配合使用
+        useLocalIp: true,
         // 启用 webpack 的模块热替换特性：
         hot: true,
         // 启用热模块替换（请参阅devServer.hot参考资料），而不会在构建失败时将页面刷新作为后备
@@ -224,11 +226,17 @@ module.exports = {
         // 当启用 lazy 时，dev-server只有在请求时才编译包(bundle)。这意味着 webpack 不会监视任何文件改动。我们称之为“惰性模式”。
         lazy: false,
         // 启用 noInfo 后，诸如「启动时和每次保存之后，那些显示的 webpack 包(bundle)信息」的消息将被隐藏。错误和警告仍然会显示。
-        noInfo:false,
+        noInfo: false,
+        // 静态文件路径，此路径下的打包文件可在浏览器中访问。
+        publicPath: "/",
+        // 当使用内联模式(inline mode)并代理 dev-server 时，内联的客户端脚本并不总是知道要连接到什么地方。
+        // 它会尝试根据 window.location 来猜测服务器的 URL，但是如果失败，你需要这样。
+        // 这个会直接在打开默认的地址
+        // public: "www.tiluzhanshi.com:80",
         // 默认打开的文件名
         index: 'index.html',
         // 指定打开浏览器时要浏览的页面。
-        openPage: '/index.html',
+        openPage: 'index.html',
         // 出现编译器错误或警告时，在浏览器中显示全屏覆盖。默认禁用。如果只想显示编译器错误：
         overlay: true,
         // 告诉服务器从哪里提供内容。只有在你想要提供静态文件时才需要。
@@ -246,6 +254,7 @@ module.exports = {
         },
         // 通过此选项，您可以将允许访问开发服务器的服务列入白名单。
         allowedHosts: [
+            "192.168.101.8",
             '.host.com',
             'subdomain.host.com',
             'subdomain2.host.com',
@@ -265,7 +274,24 @@ module.exports = {
                 { from: /./, to: '/views/404.html' }
             ]
         },
+        // stats: "errors-only", //和stats文档是的相
+        staticOptions: {
+            redirect: true
+        },
+        // 启用 quiet 后，除了初始启动信息之外的任何内容都不会被打印到控制台。这也意味着来自 webpack 的错误或警告在控制台不可见。
+        quiet: false,
         // clientLogLevel: "none",
+        proxy: [
+            {
+                context: ["/auth", "/api"],
+                target: "http://localhost:9000",
+                bypass: function (req, res, proxyOptions) {
+                    console.log("Skipping proxy for browser request.");
+                    return "/index.html";
+
+                }
+            },
+        ],
 
     }
 }
