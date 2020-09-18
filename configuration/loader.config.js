@@ -293,6 +293,8 @@ module.exports = {
                 test: /\.tsx?$/,
                 loader: "ts-loader"
             },
+            // 需要这二个loader: vue-loader vue-template-compiler 
+            // 和一个plugin(const VueLoaderPlugin = require('vue-loader/lib/plugin'))
             {
                 test: /\.vue?$/,
                 loader: "vue-loader"
