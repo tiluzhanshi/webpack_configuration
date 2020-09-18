@@ -51,85 +51,84 @@ module.exports = {
             {
                 test: /\.(png|jpg|gif)$/i,
                 use: [{
-                    loader: "url-loader", // webpack的加载器，它将文件转换为base64 uri。
-                    options: {
-                        limit: 1, //  url-loader的工作原理类似于url-loader，但是如果文件小于字节限制，则可以返回DataURL。
+                        loader: "file-loader", // webpack的加载器，它将文件转换为base64 uri。
+                        options: {
+                            // 默认情况下，您指定的路径和名称将在同一目录中输出该文件，并且还将使用相同的URI路径来访问该文件。
+                            // name: '[hash][name].[ext]', // name属性值：可以接收字符串或下面的函数
+                            name(resourcePath, resourceQuery) {
+                                // `resourcePath` - `/absolute/path/to/file.js`
+                                // `resourceQuery` - `?foo=bar`
+                                if (process.env.NODE_ENV === 'development') {
+                                    return '[path][name]1.[ext]';
+                                }
+                                return '[name]2.[ext]';
+                            },
+                            // outputPath: String | function
+                            outputPath: "images", // 指定资源输出到的目录
+                            /**
+                             * 
+                             * @param {*} url 上面name属性的路径 
+                             * @param {*} resourcePath 资源的绝对路径
+                             * @param {*} context 是一个目录，有关存放资源的目录
+                             */
+                            outputPath(url, resourcePath, context) {
+                                // `resourcePath` is original absolute path to asset
+                                // `context` is directory where stored asset (`rootContext`) or `context` option
+
+                                // To get relative path you can use
+                                // const relativePath = path.relative(context, resourcePath);
+
+                                console.log("=================")
+                                console.log(url);
+                                console.log(resourcePath);
+                                console.log(context)
+
+                                if (/url\.png/.test(resourcePath)) {
+                                    return `url/${url}`;
+                                }
+
+                                if (/abc\.png/.test(resourcePath)) {
+                                    return `abc/${url}`;
+                                }
+
+                                return `other/${url}`;
+                            },
+                            // 这个是在页面加载资源时的路径,上面的是生成资源存储时的目录
+                            // 如果不配置这个属性，请求资源的路径就和outputPath的配置一致；
+                            // publicPath: String|Function Default: __webpack_public_path__+outputPath
+                            // Specifies a custom public path for the target file(s).
+                            publicPath: 'assets',
+                            publicPath: (url, resourcePath, context) => {
+                                // `resourcePath` is original absolute path to asset
+                                // `context` is directory where stored asset (`rootContext`) or `context` option
+
+                                // To get relative path you can use
+                                // const relativePath = path.relative(context, resourcePath);
+
+                                if (/url\.png/.test(resourcePath)) {
+                                    return `url/${url}`;
+                                }
+
+                                if (/abc\.png/.test(resourcePath)) {
+                                    return `abc/${url}`;
+                                }
+
+                                return `other/${url}`;
+                            },
+                            postTransformPublicPath: (p) => `__webpack_public_path__ + ${p}`,
+
+                        },
                     },
-                }]
-            },
-            {
-                test: /\.(png|jpg|gif)$/i,
-                use: [{
-                    loader: "file-loader", // webpack的加载器，它将文件转换为base64 uri。
-                    options: {
-                        // 默认情况下，您指定的路径和名称将在同一目录中输出该文件，并且还将使用相同的URI路径来访问该文件。
-                        // name: '[hash][name].[ext]', // name属性值：可以接收字符串或下面的函数
-                        name(resourcePath, resourceQuery) {
-                            // `resourcePath` - `/absolute/path/to/file.js`
-                            // `resourceQuery` - `?foo=bar`
-                            if (process.env.NODE_ENV === 'development') {
-                                return '[path][name]1.[ext]';
-                            }
-                            return '[contenthash]2.[ext]';
+                    {
+                        loader: "url-loader", // webpack的加载器，它将文件转换为base64 uri。
+                        options: {
+                            limit: 1, //  url-loader的工作原理类似于url-loader，但是如果文件小于字节限制，则可以返回DataURL。
                         },
-                        // outputPath: String | function
-                        outputPath: "images", // 指定资源输出到的目录
-                        /**
-                         * 
-                         * @param {*} url 上面name属性的路径 
-                         * @param {*} resourcePath 资源的绝对路径
-                         * @param {*} context 是一个目录，有关存放资源的目录
-                         */
-                        outputPath(url, resourcePath, context) {
-                            // `resourcePath` is original absolute path to asset
-                            // `context` is directory where stored asset (`rootContext`) or `context` option
-
-                            // To get relative path you can use
-                            // const relativePath = path.relative(context, resourcePath);
-
-                            console.log("=================")
-                            console.log(url);
-                            console.log(resourcePath);
-                            console.log(context)
-
-                            if (/url\.png/.test(resourcePath)) {
-                                return `url/${url}`;
-                            }
-
-                            if (/abc\.png/.test(resourcePath)) {
-                                return `abc/${url}`;
-                            }
-
-                            return `other/${url}`;
-                        },
-                        publicPath: 'assets',
-                        publicPath: (url, resourcePath, context) => {
-                            // `resourcePath` is original absolute path to asset
-                            // `context` is directory where stored asset (`rootContext`) or `context` option
-
-                            // To get relative path you can use
-                            // const relativePath = path.relative(context, resourcePath);
-                            console.log("***************************")
-                            if (/url\.png/.test(resourcePath)) {
-                                return `other_public_path/${url}`;
-                            }
-
-                            if (/abc\.png/.test(resourcePath)) {
-                                return `image_output_path/${url}`;
-                            }
-
-                            return `assets111/${url}`;
-                        },
-                        postTransformPublicPath: (p) => `__webpack_public_path__ + ${p}`,
-
                     },
-                }]
+                ]
             },
 
-
-
-
-
+            // 测试不通过
             {
                 // loader: "var-loader", // 以模块的形式执行代码，并将导出看作JS代码
                 test: /varfile\.js$/i,
