@@ -155,6 +155,19 @@ module.exports = {
                 ]
             },
 
+            // 用于将json5文件解析为JavaScript对象的webpack加载器
+            // json5-loader解析的json文件后缀必须是xxxx.json5样式的；
+            {
+                test: /\.json/i,
+                use: [{
+                    loader: "json5-loader", // 注意: loader使用全名
+                    options: {
+                        // true:使用webpack编译后的，false：使用commonjs打包
+                        esModule: false,
+                    },
+                }]
+            },
+
             // 测试不通过
             {
                 // loader: "var-loader", // 以模块的形式执行代码，并将导出看作JS代码

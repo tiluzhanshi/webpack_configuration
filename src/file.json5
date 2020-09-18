@@ -1,0 +1,5 @@
+{
+    "env": "production",
+    "passwordStrength": "strong",
+    abc:'abc1'
+  }

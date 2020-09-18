@@ -15,6 +15,10 @@ import url from "./url.png";
 import abc from "./abc.png";
 import other from "./other.png";
 
+import json5 from "./file.json5";
+
+console.log(json5);
+
 
 document.querySelector("#img").src = url;
 
