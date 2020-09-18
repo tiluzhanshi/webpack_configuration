@@ -37,9 +37,57 @@ module.exports = {
                 test: /\.s[ac]ss$/i,
                 use: [
                     // 将 JS 字符串生成为 style 节点
-                    'style-loader',
+                    {
+                        loader: 'style-loader',
+                        options: {
+                            /**
+                             * styleTag  通过使用多个 <style></style> 自动把 styles 插入到 DOM 中。该方式是默认行为。
+                             * singletonStyleTag  通过使用一个 <style></style> 来自动把 styles 插入到 DOM 中
+                                lazyStyleTag
+                                lazySingletonStyleTag
+                                linkTag  <link body=""/>
+                             */
+                            injectType: "styleTag",
+                            // 如果配置了 attributes，style-loader 将会在 <style> / <link> 上绑定指定的 attributes 以及它们的值。
+                            attributes: {
+                                id: "styleId"
+                            },
+                            // 默认情况下，除非指定 insert，否则 style-loader 会把 <style> / <link> 添加到页面的 <head> 标签尾部。
+                            // 这会使得 style-loader 创建的 CSS 比 <head> 标签内已经存在的 CSS 拥有更高的优先级。 当默认行为不能满足你的需求时，你可以使用其他值，但我们不推荐这么做。
+                            insert: "body",
+                            // insert(element) {
+                                // 不要忘了这个函数会在浏览器中调用，由于不是所有浏览器都支持最新的 ECMA 特性，
+                                // 如：let，const，allow function expression 等，我们推荐只使用 ECMA 5 特性，
+                                // 但这取决于你想要支持的浏览器版本。
+
+                                // 没有通过测试
+                                // var parent = document.querySelector('head');
+                                // // eslint-disable-next-line no-underscore-dangle
+                                // var lastInsertedElement =
+                                //     window._lastElementInsertedByStyleLoader;
+
+                                // if (!lastInsertedElement) {
+                                //     parent.insertBefore(element, parent.firstChild);
+                                // } else if (lastInsertedElement.nextSibling) {
+                                //     parent.insertBefore(element, lastInsertedElement.nextSibling);
+                                // } else {
+                                //     parent.appendChild(element);
+                                // }
+
+                                // // eslint-disable-next-line no-underscore-dangle
+                                // window._lastElementInsertedByStyleLoader = element;
+                            // },
+                            esModule: true,
+                        }
+                    },
                     // 将 CSS 转化成 CommonJS 模块
-                    'css-loader',
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            // 会在css样式最后带上sourceMap
+                            sourceMap: true
+                        }
+                    },
                     // 将 Sass 编译成 CSS
                     'sass-loader',
                 ]
@@ -205,7 +253,7 @@ module.exports = {
                         }
                     },
                     {
-                        // 分解成独立文件的
+                        // 分解成独立文件的ß
                         loader: "extract-loader"
                     },
                     {
