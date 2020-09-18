@@ -1,7 +1,9 @@
 const path = require("path");
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const {
+    CleanWebpackPlugin
+} = require("clean-webpack-plugin");
 __webpack_public_path__ = "myRuntimePublicPath"
 module.exports = {
     target: "web",
@@ -50,17 +52,18 @@ module.exports = {
             //     },
             // },
 
-            // // 测试通过
-            // {
-            //     issuer: {
-            //         test: /\.js$/i,
-            //     },
-            //     use: [
-            //         {
-            //             loader: "file-loader"
-            //         }
-            //     ]
-            // },
+            // 测试通过
+            {
+                test: /\.s[ac]ss$/i,
+                use: [
+                    // 将 JS 字符串生成为 style 节点
+                    'style-loader',
+                    // 将 CSS 转化成 CommonJS 模块
+                    'css-loader',
+                    // 将 Sass 编译成 CSS
+                    'sass-loader',
+                ]
+            },
 
             // // 测试通过
             // {
@@ -127,14 +130,17 @@ module.exports = {
         descriptionFiles: ["package.json", 'test_resolve.json'],
         // 从node_modules目录是搜索模块,也可以从其他地方引入模块，如component
         modules: ["node_modules"],
-        cachePredicate: function ({ path, request }) {
+        cachePredicate: function ({
+            path,
+            request
+        }) {
             if (request.includes("index.js")) {
                 // return true;
             }
             console.log(path);
             console.log("=" + request)
 
-            return true;// 这个是默认值
+            return true; // 这个是默认值
         },
         // 默认是false, 强制让require("/foo.js")模块带上扩展名,针对node_modules以外的模块定义
         enforceExtension: false,
@@ -199,7 +205,7 @@ module.exports = {
         },
     },
     plugins: [
-        // new CleanWebpackPlugin(),
+        new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             filename: "index.html",
             template: "./index.html"
@@ -269,10 +275,18 @@ module.exports = {
         historyApiFallback: true,
         // 通过传入一个对象，比如使用 rewrites 这个选项，此行为可进一步地控制：
         historyApiFallback: {
-            rewrites: [
-                { from: /^\/$/, to: '/views/landing.html' },
-                { from: /^\/subpage/, to: '/index.html' },
-                { from: /./, to: '/views/404.html' }
+            rewrites: [{
+                    from: /^\/$/,
+                    to: '/views/landing.html'
+                },
+                {
+                    from: /^\/subpage/,
+                    to: '/index.html'
+                },
+                {
+                    from: /./,
+                    to: '/views/404.html'
+                }
             ]
         },
         // stats: "errors-only", //和stats文档是的相
@@ -282,8 +296,7 @@ module.exports = {
         // 启用 quiet 后，除了初始启动信息之外的任何内容都不会被打印到控制台。这也意味着来自 webpack 的错误或警告在控制台不可见。
         quiet: false,
         // clientLogLevel: "none",
-        proxy: [
-            {
+        proxy: [{
                 context: ["/auth", "/api"],
                 target: "http://localhost:9000",
                 bypass: function (req, res, proxyOptions) {
