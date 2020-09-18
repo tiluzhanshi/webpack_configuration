@@ -17,6 +17,9 @@ import other from "./other.png";
 
 import json5 from "./file.json5";
 
+import Foo from "./typescript.ts";
+
+
 console.log(json5);
 
 

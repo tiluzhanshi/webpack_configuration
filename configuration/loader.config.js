@@ -163,12 +163,13 @@ module.exports = {
                     loader: "json5-loader", // 注意: loader使用全名
                     options: {
                         // true:使用webpack编译后的，false：使用commonjs打包
-                        esModule: false,
+                        esModule: true,
                     },
                 }]
             },
             /**
-             * babel转换：ES2015
+             * babel转换：ES2015,
+             * babel-loader提供了自定义loader函数
              */
             {
                 test: /\.m?js$/,
@@ -180,6 +181,10 @@ module.exports = {
                         presets: ['@babel/preset-env']
                     }
                 }
+            },
+            {
+                test: /\.tsx?$/,
+                loader: "ts-loader"
             },
 
             // 测试不通过
