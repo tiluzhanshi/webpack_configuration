@@ -25,7 +25,12 @@ import "./readme.md";
 
 import "./main.css";
 
+import test from './test.js';
 
+import First from "./First.vue";
+
+console.log("VUE")
+console.log(First);
 
 
 console.log(json5);

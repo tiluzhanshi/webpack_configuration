@@ -1,5 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+// webpack.config.js
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const {
     CleanWebpackPlugin
 } = require("clean-webpack-plugin");
@@ -114,6 +116,7 @@ module.exports = {
             filename: "index.html",
             template: "./index.html"
         }),
+        new VueLoaderPlugin(),
         // new webpack.NamedModulesPlugin(),
         // new webpack.HotModuleReplacementPlugin(),
     ],

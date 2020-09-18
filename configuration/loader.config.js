@@ -1,3 +1,5 @@
+
+
 module.exports = {
     module: {
         rules: [
@@ -270,17 +272,30 @@ module.exports = {
             {
                 test: /\.m?js$/,
                 exclude: /(node_modules|bower_components)/,
-                use: {
-                    // 你也可以通过使用 cacheDirectory 选项，将 babel-loader 提速至少两倍。这会将转译的结果缓存到文件系统中。
-                    loader: 'babel-loader?cacheDirectory',
-                    options: {
-                        presets: ['@babel/preset-env']
-                    }
-                }
+                use: [{
+                        // 你也可以通过使用 cacheDirectory 选项，将 babel-loader 提速至少两倍。这会将转译的结果缓存到文件系统中。
+                        loader: 'babel-loader?cacheDirectory',
+                        options: {
+                            presets: ['@babel/preset-env']
+                        }
+                    },
+                    // {
+                    //     loader: 'eslint-loader',
+                    //     options: {
+                    //         // eslint options (if necessary)
+                    //     },
+                    // },
+                ]
+
             },
+
             {
                 test: /\.tsx?$/,
                 loader: "ts-loader"
+            },
+            {
+                test: /\.vue?$/,
+                loader: "vue-loader"
             },
 
             // 将 HTML 导出为字符串。当编译器需要时，将压缩 HTML 字符串。
@@ -316,7 +331,13 @@ module.exports = {
                     }
                 ]
             },
-
+            // 测试通过
+            // install: npm install --save-dev mocha-loader mocha
+            {
+                test: /test\.js$/,
+                use: 'mocha-loader',
+                exclude: /node_modules/,
+            },
 
 
             // 测试不通过
