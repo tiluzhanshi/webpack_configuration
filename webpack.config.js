@@ -2,6 +2,7 @@ const path = require("path");
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+__webpack_public_path__ = "myRuntimePublicPath"
 module.exports = {
     target: "web",
     mode: "development",
@@ -12,7 +13,7 @@ module.exports = {
     output: {
         filename: '[id].js',
         path: path.resolve(__dirname, "dist"),
-        publicPath: '/',
+        // publicPath: '/',
         // libraryTarget: 'commonjs2',
     },
     // devtool: "source-map",
