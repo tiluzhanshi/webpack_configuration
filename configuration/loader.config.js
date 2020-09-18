@@ -54,7 +54,7 @@ module.exports = {
                         loader: "file-loader", // webpack的加载器，它将文件转换为base64 uri。
                         options: {
                             // 默认情况下，您指定的路径和名称将在同一目录中输出该文件，并且还将使用相同的URI路径来访问该文件。
-                            // name: '[hash][name].[ext]', // name属性值：可以接收字符串或下面的函数
+                            name: '[hash][name].[ext]', // name属性值：可以接收字符串或下面的函数
                             name(resourcePath, resourceQuery) {
                                 // `resourcePath` - `/absolute/path/to/file.js`
                                 // `resourceQuery` - `?foo=bar`
@@ -78,10 +78,10 @@ module.exports = {
                                 // To get relative path you can use
                                 // const relativePath = path.relative(context, resourcePath);
 
-                                console.log("=================")
-                                console.log(url);
-                                console.log(resourcePath);
-                                console.log(context)
+                                // console.log("=================")
+                                // console.log(url);
+                                // console.log(resourcePath);
+                                // console.log(context)
 
                                 if (/url\.png/.test(resourcePath)) {
                                     return `url/${url}`;
@@ -105,6 +105,11 @@ module.exports = {
                                 // To get relative path you can use
                                 // const relativePath = path.relative(context, resourcePath);
 
+                                /**
+                                 * 在使用此访问时遇到的问题是不能正确地在资源的路径上显示正确的路径问题，
+                                 * 原因在于把file-loader放到了url-loader的后面了，导致不能正常的解析路径
+                                 */
+
                                 if (/url\.png/.test(resourcePath)) {
                                     return `url/${url}`;
                                 }
@@ -115,7 +120,29 @@ module.exports = {
 
                                 return `other/${url}`;
                             },
-                            postTransformPublicPath: (p) => `__webpack_public_path__ + ${p}`,
+                            /**
+                             * postTransformPublicPath和上面的publicPath配合使用。
+                             * 
+                             * 指定一个自定义函数来对生成的公共路径进行后处理。
+                             * 这可以用来前置或追加只有在运行时可用的动态全局变量，
+                             * 如剩余的__webpack_public_path__。
+                             * 仅使用publicPath是不可能实现这一点的，因为它将值绑定。
+                             * 
+                             * 可以实现动态指定url，根据开发环境或生产环境，参考地址：
+                             * https://webpack.docschina.org/loaders/file-loader/#dynamic-public-path-depending-on-environment-variable-at-run-time
+                             * 
+                             * @param {*} 显示解析正确的文件路径名，这个名称是publicPath中定义的
+                             */
+                            postTransformPublicPath(p) {
+                                console.log("postTransformPublicPath", p);
+                                return `__webpack_public_path__ + ${p}`;
+                            },
+                            // 指定自定义文件上下文
+                            content: "project",
+                            emitFile: false,
+                            // 在打包后，true:显示的是__webpack_require__, false:是使用的commonjs格式；
+                            esModule: true,
+
 
                         },
                     },

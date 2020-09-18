@@ -19,9 +19,9 @@ import other from "./other.png";
 document.querySelector("#img").src = url;
 
 console.log(url)
-console.log(`<img src="./abc.png" alt="" id="img">`)
+console.log(`<img src="./abc.png" alt="" id="img333">`)
 console.log(foo);
 console.log(123);
 console.log("main12");
-onsole.log(varfile); // 315360000000
+console.log(varfile); // 315360000000
 console.log("aaaaaaaaaa", 1+4);

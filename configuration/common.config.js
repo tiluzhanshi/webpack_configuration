@@ -41,8 +41,8 @@ module.exports = {
             if (request.includes("index.js")) {
                 // return true;
             }
-            console.log(path);
-            console.log("=" + request)
+            // console.log(path);
+            // console.log("=" + request)
 
             return true; // 这个是默认值
         },
