@@ -167,6 +167,20 @@ module.exports = {
                     },
                 }]
             },
+            /**
+             * babel转换：ES2015
+             */
+            {
+                test: /\.m?js$/,
+                exclude: /(node_modules|bower_components)/,
+                use: {
+                    // 你也可以通过使用 cacheDirectory 选项，将 babel-loader 提速至少两倍。这会将转译的结果缓存到文件系统中。
+                    loader: 'babel-loader?cacheDirectory',
+                    options: {
+                        presets: ['@babel/preset-env']
+                    }
+                }
+            },
 
             // 测试不通过
             {
