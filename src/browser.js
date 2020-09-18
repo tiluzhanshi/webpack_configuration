@@ -9,4 +9,6 @@ setTimeout(() => {
 }, foo);
 
 var a=3333533333356;
-console.log("update------")
+console.log("update------");
+
+console.log("aaaaaaaaaa", 1+4);
