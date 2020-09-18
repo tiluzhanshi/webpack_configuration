@@ -4,7 +4,7 @@ import abcd from "abc";
 import path from "path";
 import d3 from "../d3"
 import foo from './bar/index.js?externals';
-import browser from "./browser";
+import browser from "./browser.js";
 // import jquery from "jquery";
 import "./css/index.scss";
 import txt from "./readme.txt";
@@ -22,6 +22,10 @@ import Foo from "./typescript.ts";
 import "./index.html";
 
 import "./readme.md";
+
+import "./main.css";
+
+
 
 
 console.log(json5);

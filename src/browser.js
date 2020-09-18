@@ -1,3 +1,5 @@
+import "./default.css";
+
 console.log("browser");
 // import path from "path";
 

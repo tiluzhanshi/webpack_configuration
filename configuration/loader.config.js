@@ -56,32 +56,33 @@ module.exports = {
                             // 这会使得 style-loader 创建的 CSS 比 <head> 标签内已经存在的 CSS 拥有更高的优先级。 当默认行为不能满足你的需求时，你可以使用其他值，但我们不推荐这么做。
                             insert: "body",
                             // insert(element) {
-                                // 不要忘了这个函数会在浏览器中调用，由于不是所有浏览器都支持最新的 ECMA 特性，
-                                // 如：let，const，allow function expression 等，我们推荐只使用 ECMA 5 特性，
-                                // 但这取决于你想要支持的浏览器版本。
+                            // 不要忘了这个函数会在浏览器中调用，由于不是所有浏览器都支持最新的 ECMA 特性，
+                            // 如：let，const，allow function expression 等，我们推荐只使用 ECMA 5 特性，
+                            // 但这取决于你想要支持的浏览器版本。
 
-                                // 没有通过测试
-                                // var parent = document.querySelector('head');
-                                // // eslint-disable-next-line no-underscore-dangle
-                                // var lastInsertedElement =
-                                //     window._lastElementInsertedByStyleLoader;
+                            // 没有通过测试
+                            // var parent = document.querySelector('head');
+                            // // eslint-disable-next-line no-underscore-dangle
+                            // var lastInsertedElement =
+                            //     window._lastElementInsertedByStyleLoader;
 
-                                // if (!lastInsertedElement) {
-                                //     parent.insertBefore(element, parent.firstChild);
-                                // } else if (lastInsertedElement.nextSibling) {
-                                //     parent.insertBefore(element, lastInsertedElement.nextSibling);
-                                // } else {
-                                //     parent.appendChild(element);
-                                // }
+                            // if (!lastInsertedElement) {
+                            //     parent.insertBefore(element, parent.firstChild);
+                            // } else if (lastInsertedElement.nextSibling) {
+                            //     parent.insertBefore(element, lastInsertedElement.nextSibling);
+                            // } else {
+                            //     parent.appendChild(element);
+                            // }
 
-                                // // eslint-disable-next-line no-underscore-dangle
-                                // window._lastElementInsertedByStyleLoader = element;
+                            // // eslint-disable-next-line no-underscore-dangle
+                            // window._lastElementInsertedByStyleLoader = element;
                             // },
                             esModule: true,
                         }
                     },
                     // 将 CSS 转化成 CommonJS 模块
                     {
+                        // css-loader 会对 @import 和 url() 进行处理，就像 js 解析 import/require() 一样。
                         loader: 'css-loader',
                         options: {
                             // 会在css样式最后带上sourceMap
@@ -89,7 +90,54 @@ module.exports = {
                         }
                     },
                     // 将 Sass 编译成 CSS
-                    'sass-loader',
+                    {
+                        loader: 'sass-loader',
+                        options: {
+
+                            // 同时安装 node-sass 和 sass 的情况！默认情况下，sass-loader 
+                            // 会选择 sass。 为了避免这种情况，你可以使用 implementation 选项。
+                            // implementation 选项可以以模块的形式接受 sass（Dart Sass）或 node-sass。
+                            // `dart-sass` 是首选
+                            implementation: require('sass'),
+                            /**
+                             * 需要注意的是，当使用 sass（Dart Sass）时，由于异步回调的开销，通常情况下同步编译的速度是异步编译速度的两倍。 
+                             * 为了避免这种开销，你可以使用 fibers 包从同步代码中调用异步导入程序。
+                             * 如果可能，我们会自动注入 fibers 软件包（设置 sassOptions.fiber）（当然需要你安装 fibers 包）。
+                             * fiber：true,是开启，false：关闭；
+                             * 测试未通过
+                             */
+                            sassOptions: {
+
+                                indentWidth: 4,
+
+                            },
+
+                        },
+                    },
+                ]
+            },
+            {
+                test: /\.css$/i,
+                use: [
+                    // 生成不同的文件
+                    {
+                        loader: "file-loader?name=[name].[ext]"
+                    },
+                    // 如果由于某种原因，你需要将 CSS 提取为纯粹的 字符串资源（即不包含在 JS 模块中），
+                    // 则可能需要 查看 extract-loader。 比如，当你需要对 CSS 进行后处理时，会非常有用。
+                    "extract-loader",
+                    "to-string-loader",
+                    // 将 CSS 转化成 CommonJS 模块
+                    {
+                        // css-loader 会对 @import 和 url() 进行处理，就像 js 解析 import/require() 一样。
+                        loader: 'css-loader',
+                        options: {
+                            // 会在css样式最后带上sourceMap
+                            sourceMap: true,
+                            url: true,
+
+                        }
+                    },
                 ]
             },
             {
