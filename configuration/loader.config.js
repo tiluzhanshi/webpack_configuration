@@ -187,6 +187,42 @@ module.exports = {
                 loader: "ts-loader"
             },
 
+            // 将 HTML 导出为字符串。当编译器需要时，将压缩 HTML 字符串。
+            {
+                test: /\.html$/i,
+                use: ['html-loader']
+            },
+
+            {
+                test: /\.md$/,
+                use: [
+
+                    {
+                        // 生成独立的文件
+                        loader: "file-loader",
+                        options: {
+                            name: "[name].html"
+                        }
+                    },
+                    {
+                        // 分解成独立文件的
+                        loader: "extract-loader"
+                    },
+                    {
+                        // 这个转换成html格式的
+                        loader: "html-loader"
+                    },
+                    {
+                        loader: "markdown-loader",
+                        options: {
+                            /* your options here */
+                        }
+                    }
+                ]
+            },
+
+
+
             // 测试不通过
             {
                 // loader: "var-loader", // 以模块的形式执行代码，并将导出看作JS代码
@@ -199,6 +235,7 @@ module.exports = {
                 }], // 以模块的形式执行代码，并将导出看作JS代码
             },
 
+            //
             // // 测试通过
             // {
             //     resource: {

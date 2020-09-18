@@ -19,6 +19,10 @@ import json5 from "./file.json5";
 
 import Foo from "./typescript.ts";
 
+import "./index.html";
+
+import "./readme.md";
+
 
 console.log(json5);
 
