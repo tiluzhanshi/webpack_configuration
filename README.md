@@ -28,7 +28,7 @@ pug-loader 加载Pug和Jade模板并返回一个函数
 markdown-loader 将Markdown编译为HTML  
 react-markdown-loader 使用markdown-parse解析器将Markdown编译为React组件  
 posthtml-loader使用PostHTML加载和转换HTML文件  
-handlebars-loader 将车把编译为HTML 
+handlebars-loader 将车把编译为HTML  
 markup-inline-loader将SVG / MathML文件内嵌到HTML。在将图标字体或  CSS动画应用于SVG时，此功能很有用。  
 twig-loader 编译Twig模板并返回一个函数 
 # Styling 
