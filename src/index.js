@@ -1,6 +1,8 @@
 import "./a.js";
 import "./b.js";
-
+/**
+ * @license  aaa
+ */
 module.exports = function () {
     console.log("插件代码.......");
 
