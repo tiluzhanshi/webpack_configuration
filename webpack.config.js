@@ -3,48 +3,51 @@ const {
     CleanWebpackPlugin
 } = require("clean-webpack-plugin");
 module.exports = {
-    target: "web",
+    target: "node",
     mode: "development",
     context: path.resolve(__dirname, "./src"),
     entry: {
         index: "./index.js"
     },
     output: {
-        filename: '[id].js',
+        filename: '[name].js',
         path: path.resolve(__dirname, "./dist"),
-        /**
-         * 
-         * output.libraryTarget选项不同，output.library选项将具有不同的含义。
-         * "var" | "assign" | "this" | "window" | "self" | "global" | "commonjs" | "commonjs2" | "commonjs-module" | "amd" | "amd-require" | "umd" | "umd2" | "jsonp" | "system"
-         */
-        library:"xxxxx",
-        // 这个是编译的代码是给一个变量
-        libraryTarget: 'var',
-        // 编译后的代码可以是 AMD,CommonJS,window
-        // library键值将在AMD和window中定义
-        libraryTarget: "umd",
-        // 入口的返回值是this，library是this["xxxxx"]
-        libraryTarget: "this",
-        // 入口的返回值是 window，library是window["xxxxx"]
-        libraryTarget: "window",
-        // 入口的返回根据target属性，web:window, node:global
-        libraryTarget: "global",
-        // commonjs2情况下，library将被忽略
-        libraryTarget: "commonjs2",
-        libraryTarget: "system",
-       // ecmaVersion: 5,
-
-
+        chunkFilename: '[hash:8].chunk.js',
     },
-    resolve: {},
-    resolveLoader: {
+    optimization: {
+        // splitChunks: {
+        //     // 这表明将选择哪些块进行优化。当提供一个字符串，有效值为all，async和initial。
+        //     // 提供all可能特别强大，因为这意味着即使在异步和非异步块之间也可以共享块。
+        //     // chunks: all(default):string|async:string|initial:string
+        //     // async:只把异步加载的模块打包
+        //     chunks: 'initial',
+        //     // chunks(chunk) {
+        //     //     // exclude `my-excluded-chunk`
+        //     //     return true; // chunk.name !== 'my-excluded-chunk';
+        //     // }
+        //     // minSize: default=>number = 20000 
+        //     // 生成块的最小大小（以字节为单位）
+        //     minSize: 1,
+        //     // 告诉webpack尝试将大于maxSize字节的块拆分为较小的部分。零件的尺寸至少为minSize（旁边maxSize）。
+        //     // 该算法是确定性的，对模块的更改只会产生局部影响。这样，在使用长期缓存时就可以使用它并且不需要记录。
+        //     // maxSize只是一个提示，当模块大于maxSize或拆分将违反时可能被违反minSize。
+        //     maxSize: 2,
+        //     // 拆分块的名称。提供true将基于块和缓存组密钥自动生成一个名称。
+        //     name: true,
+        //     name: "good",
 
-    },
-    watch: false,
-    watchOptions: {
 
-    },
-    externals: {
+
+        // },
+
+        // namedModules: true,
+        // runtimeChunk: true,
+        // runtimeChunk: {
+        //     name: entrypoint => `1runtime~${entrypoint.name}`
+        // },
+        // runtimeChunk: {
+        //     name: "runtime", // 用于为运行时块命名
+        // }
 
     },
     plugins: [
