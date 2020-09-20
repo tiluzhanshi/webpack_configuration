@@ -5,7 +5,6 @@ import path from "path";
 import d3 from "../d3"
 import foo from './bar/index.js?externals';
 import browser from "./browser.js";
-// import jquery from "jquery";
 import "./css/index.scss";
 import txt from "./readme.txt";
 // const { createProxyMiddleware } = require('http-proxy-middleware');
@@ -45,3 +44,7 @@ console.log(123);
 console.log("main12");
 console.log(varfile); // 315360000000
 console.log("aaaaaaaaaa", 1+4);
+console.log($.get());
+console.log(abcde);
+$;
+abc1;

@@ -1,10 +1,5 @@
 const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-// webpack.config.js
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
-const {
-    CleanWebpackPlugin
-} = require("clean-webpack-plugin");
+
 __webpack_public_path__ = "myRuntimePublicPath"
 module.exports = {
     target: "web",
@@ -14,7 +9,7 @@ module.exports = {
         index: "./index.js"
     },
     output: {
-        filename: '[id].js',
+        filename: '[name][id].js',
         path: path.resolve(__dirname, "../dist"),
         // publicPath: '/', // 资源请求路径
         // libraryTarget: 'commonjs2',
@@ -110,16 +105,7 @@ module.exports = {
             return assetFilename.endsWith('.js');
         },
     },
-    plugins: [
-        new CleanWebpackPlugin(),
-        new HtmlWebpackPlugin({
-            filename: "index.html",
-            template: "./index.html"
-        }),
-        new VueLoaderPlugin(),
-        // new webpack.NamedModulesPlugin(),
-        // new webpack.HotModuleReplacementPlugin(),
-    ],
+   
     // 这个在控制台输出的信息类型
     // stats: "normal",
     // recordsPath: path.join(__dirname, 'records.json'),
