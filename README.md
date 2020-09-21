@@ -1,47 +1,82 @@
-# 常用loader列表
+# 配置  
+development(开发环境) 和 production(生产环境) 这两个环境下的构建目标存在着巨大差异。
+- 在开发环境中，我们需要：强大的 source map 和一个有着 live reloading(实时重新加载) 或 hot module replacement(热模块替换) 能力的 localhost server。
+- 生产环境目标则转移至其他方面，关注点在于压缩 bundle、更轻量的 source map、资源优化等，通过这些优化方式改善加载时间。由于要遵循逻辑分离，我们通常建议为每个环境编写彼此独立的 webpack 配置。
 
-# loader
-webpack允许使用加载程序来预处理文件。这使您可以捆绑JavaScript以外的任何静态资源。您可以使用Node.js轻松编写自己的加载程序。
+# 环境变量
+```javascript
+/**
+ * ./node_modules/.bin/webpack 
+ * --config config.js  
+ * --mode development  
+ * --progress  
+ * 如果这个配置返回一个module.exports = fun(env)；第一个参数就是env变量；
+ * webpack 命令行 环境配置 的 --env 参数，可以允许你传入任意数量的环境变量。
+ * 而在 webpack.config.js 中可以访问到这些环境变量。
+ * 例如，--env.production 或 --env.NODE_ENV=local（NODE_ENV 通常约定用于定义环境类型）。
+ * --env.production  
+ * --env.NODE_ENV=LOCAL  
+ * --env.abc=123 可以用等号来赋值
+ * --env.cde 444 也可以用空格来赋值
+ * 
+ * 对于我们的 webpack 配置，有一个必须要修改之处。通常，module.exports 指向配置对象。要使用 env 变量，你必须将 module.exports 转换成一个函数：
+ */
+./node_modules/.bin/webpack --config  config.js  --mode development  --progress  --env.production --env.NODE_ENV=LOCAL  --env.abc=123  --env.cde
+```
+# 性能优化  
 
-加载程序是通过loadername!在require()语句中使用前缀来激活的，或者是通过webpack配置中的regex自动应用的-请参见configuration。
+## 以下步骤可以提高解析速度：
 
-# Files 
-raw-loader 加载文件的原始内容（utf-8）  
-val-loader 将代码作为模块执行，并将导出视为JS代码  
-url-loader类似于文件加载器，但如果文件小于限制，则可以返回数据URL  
-file-loader 将文件发射到输出文件夹中并返回（相对）URL  
-ref-loader 手动在任何文件之间创建依赖关系  
-# JSON格式 
-json5-loader加载和转译JSON 5文件  
-cson-loader加载和转译CSON文件
-# 转换
-babel-loader使用Babel加载ES2015 +代码并转换为ES5  
-buble-loader使用Bublé将ES2015 +代码加载并转换为ES5  
-traceur-loader使用Traceur将ES2015 +代码加载并转换为ES5  
-ts-loader像JavaScript一样加载TypeScript 2.0+  
-coffee-loader像JavaScript一样加载CoffeeScript  
-fengari-loader使用fengari加载Lua代码  
-elm-webpack-loader像JavaScript一样加载Elm  
-# 模板化 
-html-loader 将HTML导出为字符串，需要引用静态资源  
-pug-loader 加载Pug和Jade模板并返回一个函数  
-markdown-loader 将Markdown编译为HTML  
-react-markdown-loader 使用markdown-parse解析器将Markdown编译为React组件  
-posthtml-loader使用PostHTML加载和转换HTML文件  
-handlebars-loader 将车把编译为HTML  
-markup-inline-loader将SVG / MathML文件内嵌到HTML。在将图标字体或  CSS动画应用于SVG时，此功能很有用。  
-twig-loader 编译Twig模板并返回一个函数 
-# Styling 
-style-loader 将模块导出作为样式添加到DOM  
-css-loader 使用已解析的导入加载CSS文件并返回CSS代码  
-less-loader 加载和编译LESS文件 
-sass-loader 加载并编译SASS / SCSS文件   
-postcss-loader使用PostCSS加载和转换CSS / SSS文件   
-stylus-loader 加载并编译手写笔文件  
-# Linting && Testing 
-mocha-loader使用Mocha进行测试（浏览器/ NodeJS）  
-eslint-loader使用ESLint整理代码的PreLoader  
-# 框架 
-vue-loader加载和编译Vue组件    
-polymer-loader使用首选的预处理器和require()一流组件等Web组件处理HTML和CSS    
-angular2-template-loader加载和编译角度组件    
+- 减少 resolve.modules, resolve.extensions, resolve.mainFiles, resolve.descriptionFiles 中条目数量，因为他们会增加文件系统调用的次数。
+- 如果你不使用 symlinks（例如 npm link 或者 yarn link），可以设置 resolve.symlinks: false。
+- 如果你使用自定义 resolve plugin 规则，并且没有指定 context 上下文，可以设置 resolve.cacheWithContext: false。
+
+## 避免在生产环境下才会用到的工具 
+某些 utility, plugin 和 loader 都只用于生产环境。例如，在开发环境下使用 TerserPlugin 来 minify(压缩) 和 mangle(混淆破坏) 代码是没有意义的。通常在开发环境下，应该排除以下这些工具：  
+
+- TerserPlugin  
+- ExtractTextPlugin  
+- [hash]/[chunkhash]  
+- AggressiveSplittingPlugin  
+- AggressiveMergingPlugin  
+- ModuleConcatenationPlugin  
+
+## 避免额外的优化步骤 
+webpack 通过执行额外的算法任务，来优化输出结果的体积和加载性能。这些优化适用于小型代码库，但是在大型代码库中却非常耗费性能：  
+```javascript
+module.exports = {
+  // ...
+  optimization: {
+    removeAvailableModules: false,
+    removeEmptyChunks: false,
+    splitChunks: false,
+  },
+};
+```
+## 输出结果不携带路径信息 
+webpack 会在输出的 bundle 中生成路径信息。然而，在打包数千个模块的项目中，这会导致造成垃圾回收性能压力。在 options.output.pathinfo 设置中关闭：
+```javascript 
+module.exports = {
+  // ...
+  output: {
+    pathinfo: false,
+  },
+};
+```
+
+## TypeScript loader 
+你可以为 loader 传入 transpileOnly 选项，以缩短使用 ts-loader 时的构建时间。使用此选项，会关闭类型检查。如果要再次开启类型检查，请使用 ForkTsCheckerWebpackPlugin。使用此插件会将检查过程移至单独的进程，可以加快 TypeScript 的类型检查和 ESLint 插入的速度。
+```javascript
+module.exports = {
+  // ...
+  test: /\.tsx?$/,
+  use: [
+    {
+      loader: 'ts-loader',
+      options: {
+        transpileOnly: true
+      },
+    },
+  ],
+};
+```

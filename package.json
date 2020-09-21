@@ -7,8 +7,9 @@
   "module": "./src/module.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "webpack": " ./node_modules/.bin/webpack --webpack.config.js",
-    "webpack-dev-server": " ./node_modules/.bin/webpack-dev-server --webpack.config.js"
+    "dev": " ./node_modules/.bin/webpack --config webpack.config.dev.js",
+    "prod": " ./node_modules/.bin/webpack --config webpack.config.prod.js",
+    "webpack-dev-server": " ./node_modules/.bin/webpack-dev-server --config webpack.config.dev.js"
   },
   "webapp": {
     "webapp_test": "./src/webapp_test.js"
