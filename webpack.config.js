@@ -16,7 +16,7 @@ module.exports = {
     },module: {
         rules: [
             {
-                test: /\.js$/,
+                test: /\.jss$/,
                 exclude: /(node_modules|bower_components)/,
                 use: [{
                     // 你也可以通过使用 cacheDirectory 选项，将 babel-loader 提速至少两倍。这会将转译的结果缓存到文件系统中。

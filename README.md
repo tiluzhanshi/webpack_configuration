@@ -1,7 +1,16 @@
 # webpack_configuration
 
+# CLI的基本用法
+您需要的所有Babel模块都作为单独的npm软件包发布，其范围为@babel（自版本7起）。这种模块化设计允许使用各种工具，每种工具都是针对特定用例设计的。
+
+
+# cli编译命令
+```
+npx babel ./src  --out-dir ./lib
+```
+
 ## 安装@babel/plugin-transform-classes插件
-在`babel.config.json`或者`.babelrc.json`文件中提供以下内容
+在`babel.config.json`文件中配置二个书写方式
 ```json
 {
     "plugins": ["@babel/plugin-transform-classes"]
@@ -17,7 +26,7 @@
     ]
   }
 ```
-在`babel.config.js`中配置
+在`babel.config.js`、`.babelrc`、`.babelrc.js`中配置
 ```javascript
 module.exports = {
     presets: [
