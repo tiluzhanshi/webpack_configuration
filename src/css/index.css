@@ -1,0 +1,22 @@
+.block--modifier {
+  border: 1em;
+}
+
+.thick-border {
+        border: thick dotted #f00;
+}
+
+.modal:hover:not(:focus) {
+  outline: none;
+}
+
+@media (max-width: 240px) {
+  .serious-modal:not(:focus) {
+       outline: none;
+  }
+}
+
+
+
+
+

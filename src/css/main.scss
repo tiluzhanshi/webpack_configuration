@@ -1,12 +1,12 @@
 body {
   background-color: #f00;
   flex: 1;
-  background-image: url('main-image.png');
+  background-image: url('../images/flower.png');
 }
 
 .block {
   padding: 1em;
-  background-image: url('./banner-jxb.png');
+  background-image: url('../images/banner-jxb.png');
 }
 
 .block:hover {
@@ -15,7 +15,7 @@ body {
 
 .blockelement {
   margin: 1em;
-  background-image: url('./flower.png');
+  background-image: url('../images/header.png');
 }
 
 .block--modifier {
