@@ -3,7 +3,7 @@
 }
 
 .thick-border {
-        border: thick dotted #f00;
+  border: thick dotted #f00;
 }
 
 .modal:hover:not(:focus) {
@@ -12,11 +12,6 @@
 
 @media (max-width: 240px) {
   .serious-modal:not(:focus) {
-       outline: none;
+    outline: none;
   }
 }
-
-
-
-
-

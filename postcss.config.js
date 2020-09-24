@@ -1,7 +1,8 @@
 module.exports = {
+    syntax: 'postcss-scss',
     plugins: [
-        // "stylelint",
-        require("precss")({}),
+        "stylelint",
+        // require("precss")({}),
         require("autoprefixer"),
         // 允许你使用未来的 CSS 特性。
         require("postcss-preset-env"),

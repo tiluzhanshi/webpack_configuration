@@ -48,6 +48,9 @@ module.exports = {
             }
           },
           {
+            loader: "sass-loader",
+          },
+          {
             // 自动添加前缀
             loader: 'postcss-loader'
           }

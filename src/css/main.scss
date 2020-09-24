@@ -1,57 +1,33 @@
 body {
   background-color: #f00;
   flex: 1;
-  background-image: url('../images/flower.png');
+  // background-image: url('../images/flower.png');
 }
 
-.block {
+%block {
   padding: 1em;
-  background-image: url('../images/banner-jxb.png');
 }
 
 .block:hover {
   background-color: #f00;
 }
 
-.blockelement {
-  margin: 1em;
-  background-image: url('../images/header.png');
+.abc {
+  color: #f00;
 }
 
-.block--modifier {
-  border: 1em;
+@mixin prefix($property, $value) {
+  #{$property}: $value;
 }
 
-$ff: #f00;
-
-h1 {
-  > & a {
-    color: $ff;
-  }
-}
-
-%thick-border {
-  border: thick dotted #f00;
-}
+$red: #f00;
 
 .serious-modal {
   font-style: normal;
   font-weight: bold;
+  color: $red;
 
-  @extend .block;
-}
+  @extend %block;
 
-.modal {
-  @extend %thick-border;
-  color: #f00;
-}
-
-.modal:hover:not(:focus) {
-  outline: none;
-}
-
-@media (max-width: 240px) {
-  .serious-modal:not(:focus) {
-    outline: none;
-  }
+  @include prefix("color", #f00);
 }
