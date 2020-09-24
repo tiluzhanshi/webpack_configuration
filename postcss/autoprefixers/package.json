@@ -1,0 +1,37 @@
+{
+  "name": "autoprefixers",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "^10.0.0",
+    "css-loader": "^4.3.0",
+    "file-loader": "^6.1.0",
+    "html-webpack-plugin": "^4.5.0",
+    "postcss": "^8.0.8",
+    "postcss-assets": "^5.0.0",
+    "postcss-autoreset": "^2.0.2",
+    "postcss-cli": "^8.0.0",
+    "postcss-loader": "^4.0.2",
+    "postcss-preset-env": "^6.7.0",
+    "postcss-sorting": "^6.0.0",
+    "postcss-sprites": "^4.2.1",
+    "postcss-use": "^3.0.0",
+    "postcss-utilities": "^0.8.4",
+    "precss": "^4.0.0",
+    "style-loader": "^1.2.1",
+    "stylelint": "^13.7.1",
+    "stylelint-config-sass-guidelines": "^7.1.0",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-scss": "^3.18.0",
+    "to-string-loader": "^1.1.6",
+    "url-loader": "^4.1.0",
+    "webpack": "^4.44.2"
+  }
+}
