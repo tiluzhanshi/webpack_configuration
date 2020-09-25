@@ -3,9 +3,9 @@ module.exports = {
     plugins: [
         "stylelint",
         // require("precss")({}),
-        require("autoprefixer"),
+        // require("autoprefixer"),
         // 允许你使用未来的 CSS 特性。
-        require("postcss-preset-env"),
+        // require("postcss-preset-env"),
         // // 囊括了许多插件来支持类似 Sass 的特性，比如 CSS 变量，套嵌，mixins 等
 
         // // PreCSS由以下插件提供动力（按此顺序）：

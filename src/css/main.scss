@@ -1,7 +1,7 @@
 body {
   background-color: #f00;
   flex: 1;
-  // background-image: url('../images/flower.png');
+  background-image: url('../images/flower.png');
 }
 
 %block {
@@ -22,12 +22,24 @@ body {
 
 $red: #f00;
 
+.foo {
+  color: #f00;
+}
+
 .serious-modal {
   font-style: normal;
   font-weight: bold;
   color: $red;
 
-  @extend %block;
+  @extend .a;
 
   @include prefix("color", #f00);
 }
+
+a {
+  transform: translate(1, 1);
+}
+/* stylelint-disable block-no-empty */
+.a {}
+
+/* comment */

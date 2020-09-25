@@ -5,6 +5,10 @@
 一些规则要求额外的灵活性以解决边缘情况。这些可以使用可选的辅助选项对象。例如，在：
 - "color-hex-case": "upper" 没有二级期权对象
 - "indentation": [2, { "except": ["block"] }]，辅助选项对象是 { "except": ["block"] }
-最典型的辅助选项是"ignore": []和"except": []。
 
+最典型的辅助选项是"ignore": []和"except": []。
+- except:除....之外匹配；
+- ignore:忽略什么；
+
+还有用户自定义的辅助选项如：
 
