@@ -13,7 +13,7 @@ module.exports = {
       {
         test:/\.js$/i,
         use:[
-          "babel-loader",
+          // "babel-loader",
           "eslint-loader"
         ]
       },
