@@ -1,8 +1,4 @@
-var foo = function() {
-    
-};
-
-console.log();
+import "./main.vue";
 
 module.exports = {
 

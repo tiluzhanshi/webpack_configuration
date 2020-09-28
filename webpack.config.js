@@ -3,6 +3,8 @@ const {
   CleanWebpackPlugin
 } = require("clean-webpack-plugin");
 
+const VueLoadersPlugin = require("vue-loader/lib/plugin");
+
 module.exports = {
   mode: "development",
   target: "web",
@@ -14,12 +16,30 @@ module.exports = {
         test:/\.js$/i,
         use:[
           "babel-loader",
-          "eslint-loader"
+          // "eslint-loader"
+        ]
+      },
+      {
+        test:/\.vue$/i,
+        use:[
+          "vue-loader",
+          // "eslint-loader"
+        ]
+      },
+      {
+        test:/\.css$/i,
+        use:[
+          "style-loader",
+         // "extract-loader",
+          "css-loader"
         ]
       },
     ]
   },
   plugins: [
-    new CleanWebpackPlugin()
-  ]
+    new CleanWebpackPlugin(),
+    new VueLoadersPlugin(),
+
+  ],
+  devtool: "source-map"
 }
