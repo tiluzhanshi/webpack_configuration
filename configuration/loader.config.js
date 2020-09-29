@@ -1,4 +1,4 @@
-
+const path = require("path");
 
 module.exports = {
     module: {
@@ -279,12 +279,12 @@ module.exports = {
                             presets: ['@babel/preset-env']
                         }
                     },
-                    // {
-                    //     loader: 'eslint-loader',
-                    //     options: {
-                    //         // eslint options (if necessary)
-                    //     },
-                    // },
+                    {
+                        loader: path.resolve(__dirname, "../src/loader.js"),
+                        options: {
+                            // eslint options (if necessary)
+                        },
+                    },
                 ]
 
             },

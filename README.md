@@ -45,3 +45,37 @@ eslint-loader使用ESLint整理代码的PreLoader
 vue-loader加载和编译Vue组件    
 polymer-loader使用首选的预处理器和require()一流组件等Web组件处理HTML和CSS    
 angular2-template-loader加载和编译角度组件    
+
+
+
+# 编写loader
+- 同步loader: `return`和`this.callback()`
+- 异步loader: `this.async()`和`async/await`
+
+# pitch钩子全程传参
+在loader文件里你可以exports一个命名为 pitch 的函数，它会先于所有的loader执行，就像这样：
+
+```javascript
+module.exports.pitch = (remaining, preceding, data) => {
+    console.log('***remaining***', remaining)
+    console.log('***preceding***', preceding)
+    // data会被挂在到当前loader的上下文this上在loaders之间传递
+    data.value = "test"
+}
+```
+
+它可以接受三个参数，最重要的就是`第三个参数data`，你可以为其挂在一些所需的值，一个rule里的所有的loader在执行时都能拿到这个值。
+    
+```javascript
+module.exports = function(content){
+    //***this data*** test
+    console.log('***this data***', this.data.value)
+    return "{};" + content
+}
+
+module.exports.pitch = (remaining, preceding, data) => {
+    data.value = "test"
+}
+```
+
+
