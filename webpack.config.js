@@ -16,33 +16,41 @@ module.exports = {
         path: path.resolve(__dirname, "./dist"),
     },
     module: {
-        rules: [
-            // {
-            //     use: [
-            //         {
-            //             loader: "define-loader",
-            //         },
-            //     ]
-            // },
-            {
-                // test: /\.css$/i,
+        rules: [{
+                /**
+                 * 先匹配test，
+                 * 再匹配resourceQuery
+                 * 当两者都为true时
+                 * 执行下面的loader
+                 */
                 resource: {
                     test(source) {
-                        console.log(source);
-                        return true;
+                        console.log("resource", source);
+                        return (new String(source).includes(".txt"));
                     }
                 },
+                /**
+                 *  如果在引入模块后面不带参数是不会调用resourceQuery方法的；
+                 *  引入模块格式如下：
+                 *  import abc from "./demo.txt?asdfasdfa";
+                 */
                 resourceQuery: query => {
                     console.log(query);
-                    return true;
+                    return /abc/i.test(query)
                 },
-                // include: [],
-                loader: ["file-loader?name=main.css", "extract-loader", "css-loader"]
+                // resourceQuery: /inline/,
+                loader: ["file-loader?name=[name].txt","extract-loader",  "raw-loader"]
+                // use: 'url-loader'
             },
-            // {
-            //     test: /\.vue$/i,
-            //     use: ["vue-loader"]
-            // },
+            {
+                test: /\.css$/i,
+                loader: ["file-loader?name=[name].css", "extract-loader", "css-loader"]
+            },
+
+            {
+                test: /\.vue$/i,
+                use: ["vue-loader"]
+            },
         ]
     },
     devtool: "source-map",
@@ -58,6 +66,6 @@ module.exports = {
             filename: "index.html",
             template: "./index.html"
         }),
-        // new VueLoaderPlugin(),
+        new VueLoaderPlugin(),
     ]
 }

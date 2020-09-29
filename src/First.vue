@@ -7,6 +7,7 @@ export default {
 <style lang="css">
 body {
     color: red;
+    font-size: 12px;
 }
 </style>
 <template>
