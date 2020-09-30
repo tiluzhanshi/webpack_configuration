@@ -16,7 +16,8 @@ module.exports = {
         path: path.resolve(__dirname, "./dist"),
     },
     module: {
-        rules: [{
+        rules: [
+            {
                 /**
                  * 先匹配test，
                  * 再匹配resourceQuery
@@ -25,8 +26,8 @@ module.exports = {
                  */
                 resource: {
                     test(source) {
-                        console.log("resource", source);
-                        return (new String(source).includes(".txt"));
+                        // console.log("resource", source);
+                        return true; // (new String(source).includes(".txt"));
                     }
                 },
                 /**
@@ -35,22 +36,22 @@ module.exports = {
                  *  import abc from "./demo.txt?asdfasdfa";
                  */
                 resourceQuery: query => {
-                    console.log(query);
-                    return /abc/i.test(query)
+                    // console.log(query);
+                    return true; ///abc/i.test(query)
                 },
                 // resourceQuery: /inline/,
-                loader: ["file-loader?name=[name].txt","extract-loader",  "raw-loader"]
+                // loader: ["file-loader?name=[name].txt","extract-loader",  "raw-loader"]
+                loader:["define-loader"],
                 // use: 'url-loader'
             },
-            {
-                test: /\.css$/i,
-                loader: ["file-loader?name=[name].css", "extract-loader", "css-loader"]
-            },
-
-            {
-                test: /\.vue$/i,
-                use: ["vue-loader"]
-            },
+            // {
+            //     test: /\.css$/i,
+            //     loader: ["css-loader"]
+            // },
+            // {
+            //     test: /\.vue$/i,
+            //     use: ["vue-loader"]
+            // },
         ]
     },
     devtool: "source-map",
@@ -66,6 +67,6 @@ module.exports = {
             filename: "index.html",
             template: "./index.html"
         }),
-        new VueLoaderPlugin(),
+        // new VueLoaderPlugin(),
     ]
 }
