@@ -17,41 +17,120 @@ module.exports = {
     },
     module: {
         rules: [
+            // {
+            //     loader:["css-loader"],
+            // },
+            // {
+            //     /**
+            //      * 先匹配test，
+            //      * 再匹配resourceQuery
+            //      * 当两者都为true时
+            //      * 执行下面的loader
+            //      */
+            //     resource: {
+            //         test(source) {
+            //             console.log(source);
+            //             return false; // (new String(source).includes(".txt"));
+            //         }
+            //     },
+            //     /**
+            //      *  如果在引入模块后面不带参数是不会调用resourceQuery方法的；
+            //      *  引入模块格式如下：
+            //      *  import abc from "./demo.txt?asdfasdfa";
+            //      */
+            //     resourceQuery: query => {
+            //         console.log(query);
+            //         return true; ///abc/i.test(query)
+            //     },
+            //     // resourceQuery: /inline/,
+            //     // loader: ["file-loader?name=[name].txt","extract-loader",  "raw-loader"]
+            //     loader:["define-loader"],
+            //     enforce:"post"
+            //     // use: 'url-loader'
+            // },
             {
-                /**
-                 * 先匹配test，
-                 * 再匹配resourceQuery
-                 * 当两者都为true时
-                 * 执行下面的loader
-                 */
-                resource: {
-                    test(source) {
-                        // console.log("resource", source);
-                        return true; // (new String(source).includes(".txt"));
+                resource:{
+                    test:(r) =>{
+
+                        return r.includes(".css")
                     }
                 },
-                /**
-                 *  如果在引入模块后面不带参数是不会调用resourceQuery方法的；
-                 *  引入模块格式如下：
-                 *  import abc from "./demo.txt?asdfasdfa";
-                 */
-                resourceQuery: query => {
-                    // console.log(query);
-                    return true; ///abc/i.test(query)
+                resourceQuery: (query)=>{
+                    console.log(query)
+                    return query == "?inline"
                 },
-                // resourceQuery: /inline/,
-                // loader: ["file-loader?name=[name].txt","extract-loader",  "raw-loader"]
-                loader:["define-loader"],
-                // use: 'url-loader'
+                use: [{
+                        loader: "define-loader",
+                        options: {
+                            // enforce: "post"
+                        }
+                    }
+
+                ],
             },
-            // {
-            //     test: /\.css$/i,
-            //     loader: ["css-loader"]
-            // },
+           
+            {
+                test: /\.css$/i,
+                use: [{
+                        loader: "file-loader",
+                        options: {
+                            //  enforce: "pre"
+                        },
+                      
+                    },
+                    {
+                        loader: "css-loader",
+                        options: {
+                            // enforce: "pre"
+                        }
+
+                    }
+                    
+
+                ]
+            },
+            {
+                resource:{
+                    test:(r) =>{
+
+                        return r.includes(".css")
+                    }
+                },
+                resourceQuery: (query)=>{
+                    console.log(query)
+                    return query == "?inline"
+                },
+                use: [{
+                        loader: "define-loader",
+                        options: {
+                            // enforce: "post"
+                        }
+                    }
+
+                ],
+            },
+            {
+                resource:{
+                    test:(r) =>{
+
+                        return r.includes(".css")
+                    }
+                },
+                use: [{
+                        loader: "define-loader2",
+                        options: {
+                            // enforce: "post"
+                        }
+                    }
+
+                ],
+            },
             // {
             //     test: /\.vue$/i,
             //     use: ["vue-loader"]
             // },
+            // ../node_modules/file-loader/dist/cjs.js!../node_modules/css-loader/dist/cjs.js!../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../loaders/define-loader/index.js!../node_modules/vue-loader/lib/index.js?!./First.vue?vue&type=style&index=0&lang=css&
+            // ../loaders/define-loader/index.js!../node_modules/file-loader/dist/cjs.js!../node_modules/css-loader/dist/cjs.js!../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../node_modules/vue-loader/lib/index.js?!./First.vue?vue&type=style&index=0&lang=css&
         ]
     },
     devtool: "source-map",
