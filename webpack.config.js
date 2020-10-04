@@ -14,6 +14,8 @@ module.exports = {
     output: {
         filename: '[name].js',
         path: path.resolve(__dirname, "./dist"),
+        // chunkFilename:'[name].[ext]',
+        chunkFilename: '[id].bundle.js',
     },
     module: {
         rules: [
@@ -48,76 +50,85 @@ module.exports = {
             //     enforce:"post"
             //     // use: 'url-loader'
             // },
+            // {
+            //     resource:{
+            //         test:(r) =>{
+
+            //             return r.includes(".css")
+            //         }
+            //     },
+            //     resourceQuery: (query)=>{
+            //         // console.log(query)
+            //         return query == "?inline"
+            //     },
+            //     use: [{
+            //             loader: "define-loader",
+            //             options: {
+            //                 // enforce: "post"
+            //             }
+            //         }
+
+            //     ],
+            // },
+
+            // {
+            //     test: /\.css$/i,
+            //     use: [{
+            //             loader: "file-loader",
+            //             options: {
+            //                 //  enforce: "pre"
+            //             },
+
+            //         },
+            //         {
+            //             loader: "css-loader",
+            //             options: {
+            //                 // enforce: "pre"
+            //             }
+
+            //         }
+
+
+            //     ]
+            // },
             {
-                resource:{
-                    test:(r) =>{
-
-                        return r.includes(".css")
+                test: /\.png$/i,
+                loader: ["url-loader", {
+                    loader: "url-loader",
+                    options: {
+                        limit: 1,
                     }
-                },
-                resourceQuery: (query)=>{
-                    console.log(query)
-                    return query == "?inline"
-                },
-                use: [{
-                        loader: "define-loader",
-                        options: {
-                            // enforce: "post"
-                        }
-                    }
-
-                ],
+                }],
             },
-           
+            // {
+            //     resource: {
+            //         test: (r) => {
+
+            //             return r.includes(".css")
+            //         }
+            //     },
+            //     // resourceQuery: (query)=>{
+            //     //     // console.log(query)
+            //     //     return query == "?inline"
+            //     // },
+            //     use: [
+
+            //     ],
+            // },
             {
-                test: /\.css$/i,
-                use: [{
-                        loader: "file-loader",
-                        options: {
-                            //  enforce: "pre"
-                        },
-                      
-                    },
-                    {
-                        loader: "css-loader",
-                        options: {
-                            // enforce: "pre"
-                        }
-
-                    }
-                    
-
-                ]
-            },
-            {
-                resource:{
-                    test:(r) =>{
-
-                        return r.includes(".css")
-                    }
-                },
-                resourceQuery: (query)=>{
-                    console.log(query)
-                    return query == "?inline"
-                },
-                use: [{
-                        loader: "define-loader",
-                        options: {
-                            // enforce: "post"
-                        }
-                    }
-
-                ],
-            },
-            {
-                resource:{
-                    test:(r) =>{
+                resource: {
+                    test: (r) => {
 
                         return r.includes(".css")
                     }
                 },
                 use: [{
                         loader: "define-loader2",
+                        options: {
+                            // enforce: "post"
+                        }
+                    }, {
+                        loader: "define-loader",
                         options: {
                             // enforce: "post"
                         }
